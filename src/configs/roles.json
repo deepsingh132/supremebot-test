@@ -1,0 +1,18 @@
+{
+  "Roles": {
+    "SUPREME_LEADER": "Supreme Leader",
+    "bot": "SUPREME Bot",
+    "developer": "Developer",
+    "contributor": "Contributor",
+    "helper": "Helper",
+    "staff": "Staff",
+    "donator": "Donator",
+    "premium": "Premium",
+    "booster": "Booster",
+    "subscriber": "Subscriber",
+    "fan": "Fan",
+    "fanatic": "Fanatic",
+    "fanboy": "Fanboy",
+    "fangirl": "Fangirl"
+  }
+}

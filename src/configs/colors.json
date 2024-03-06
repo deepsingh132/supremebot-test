@@ -1,0 +1,28 @@
+{
+  "Colors": {
+    "WHITE": "#FFFFFF",
+    "GREYPLE": "#99AAB5",
+    "BLACK": "#23272A",
+    "DARK_BUT_NOT_BLACK": "#2C2F33",
+    "BLURPLE": "#5865F2",
+    "GREEN": "#57F287",
+    "YELLOW": "#FEE75C",
+    "FUSCHIA": "#EB459E",
+    "RED": "#ED4245",
+    "AQUA": "1ABC9C",
+    "DARKAQUA": "#11806A",
+    "DARKGREEN": "#1F8B4C",
+    "DARKBLUE": "#206694",
+    "DARKPURPLE": "#71368A",
+    "GOLD": "F1C40F",
+    "DARKGOLD": "#C27C0E",
+    "ORANGE": "E67E22",
+    "DARKORANGE": "#A84300",
+    "DARKRED": "#992D22",
+    "GREY": "#95A5A6",
+    "DARKGREY": "#979C9F",
+    "LIGHTGREY": "BCC0C0",
+    "NAVY": "#34495E",
+    "DARKNAVY": "#2C3E50"
+  }
+}
