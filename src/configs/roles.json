@@ -1,18 +1,6 @@
-{
-  "Roles": {
-    "SUPREME_LEADER": "Supreme Leader",
-    "bot": "SUPREME Bot",
-    "developer": "Developer",
-    "contributor": "Contributor",
-    "helper": "Helper",
-    "staff": "Staff",
-    "donator": "Donator",
-    "premium": "Premium",
-    "booster": "Booster",
-    "subscriber": "Subscriber",
-    "fan": "Fan",
-    "fanatic": "Fanatic",
-    "fanboy": "Fanboy",
-    "fangirl": "Fangirl"
+[
+  {
+    "id": "1216016983460544542",
+    "name": "New Nerd"
   }
-}
+]

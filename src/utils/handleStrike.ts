@@ -1,12 +1,19 @@
-import { Message, PermissionsBitField } from 'discord.js';
+import { ColorResolvable, Message, PermissionsBitField } from 'discord.js';
 import { getMember } from './memberUtil';
 import { checkAdminForMsg } from './checkAdmin';
 
 import Member, { Members } from '../database/models/Member';
 import { Colors } from '../configs/colors.json';
 import { logAction } from './logHandler';
+import { convertColor } from './convertColors';
+import { Redis } from 'ioredis';
+import { storeMemberListForLast24Hours } from './storeMemberList';
 
-export const sendStrikeMessage = async (message: Message, memberData: Members) => {
+export const sendStrikeMessage = async (
+  message: Message,
+  memberData: Members,
+  redis: Redis,
+) => {
   const member = message.member;
   if (!member) return;
 
@@ -19,28 +26,40 @@ export const sendStrikeMessage = async (message: Message, memberData: Members) =
       `${member}, that's your second warning. One more strike and you'll be kicked.`,
     );
   } else {
-    // Kick the user and send a message
-    member.kick('Repeated violations of rules').catch((err) => {
-      console.error('Error kicking member:', err);
-    });
-   await logAction({
-      bot: message.client,
-      context: `${member} has been kicked for repeated violations.`,
-      color: Colors.BLURPLE,
-    });
-    // Clear the member's strikes
-    await Member.findOneAndUpdate(
-      { memberId: member.id },
-      {
-        $set: { strikes: 0 },
-      },
-      { new: true },
-    );
-    message.channel.send(`${member} has been kicked for repeated violations.`);
+    // Kick the member
+    await kickMember(message, redis);
   }
 };
 
-export const handleStrike = async (message: Message) => {
+export const kickMember = async (message: Message, redis: Redis) => {
+  const member = message.member;
+
+  if (!member) return;
+
+  // Kick the user and log the action
+  member.kick('Repeated violations of rules').catch((err) => {
+    console.error('Error kicking member:', err);
+  });
+  await logAction({
+    bot: message.client,
+    context: `${member} has been kicked for repeated violations.`,
+    color: convertColor(Colors.BLURPLE),
+  });
+  // Clear the member's strikes
+  await Member.findOneAndUpdate(
+    { memberId: member.id },
+    {
+      $set: { strikes: 0 },
+    },
+    { new: true },
+  );
+  message.channel.send(`${member} has been kicked for repeated violations.`);
+
+  // Store the kicked member in Redis
+  await storeMemberListForLast24Hours(member, redis, 'kicked_members');
+};
+
+export const handleStrike = async (message: Message, redis: Redis) => {
   const member = message.member;
   if (!member) return;
 
@@ -80,7 +99,7 @@ export const handleStrike = async (message: Message) => {
       { new: true },
     );
     if (updatedMember) {
-      sendStrikeMessage(message, updatedMember);
+      sendStrikeMessage(message, updatedMember, redis);
     }
   }
 };

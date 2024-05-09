@@ -1,6 +1,7 @@
 import {
   ChannelType,
   Client,
+  ColorResolvable,
   Guild,
   Message,
   PermissionFlagsBits,
@@ -17,9 +18,6 @@ export async function setupBotLogsChannel(params: {
   const { bot, guild } = params;
   const channelName = 'bot-logs';
 
-  console.log('Guild: ', guild);
-  console.log('Bot: ', bot.user?.id);
-
   if (!guild.available || !bot.user?.id) {
     console.error('Guild or bot id not available');
     return;
@@ -29,8 +27,6 @@ export async function setupBotLogsChannel(params: {
     (channel) =>
       channel.name === channelName && channel.type === ChannelType.GuildText,
   );
-
-  console.log('Bot logs channel: ', botLogsChannel);
 
   let botLogsCategory;
 
@@ -78,7 +74,7 @@ export async function setupBotLogsChannel(params: {
 export async function logAction(params: {
   bot: Client;
   context: string;
-  color: string;
+  color: ColorResolvable;
 }) {
   const { bot, context, color } = params;
 
@@ -93,8 +89,7 @@ export async function logAction(params: {
     return;
   }
 
-  console.log('Bot logs channel: ', botLogsChannel);
   const channel = bot.channels.cache.get(botLogsChannel.id);
   // (channel as TextChannel).send(msg);
-  await sendEmbed(channel as TextChannel, color, 'Bot Action', context);
+  await sendEmbed(channel as TextChannel, color, 'Bot Action',null, context, null);
 }

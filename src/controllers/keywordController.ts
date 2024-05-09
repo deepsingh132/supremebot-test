@@ -1,15 +1,10 @@
 import Keywords  from "../database/models/Keywords";
 import { Request, Response } from "express";
 
-// create a cache for the keywords
+// create a cache for the keywords to avoid hitting the database for every request
 let keywordCache = [
-  "badword1",
-  "badword2",
-  "gali1",
-  "gali2",
-  "fuck",
-  "bhenchod"
-];
+
+] as string[];
 
 const checkKeywordExists = (keyword: string) => {
   return keywordCache.includes(keyword);
